@@ -20,7 +20,7 @@ erl_crash.dump
 *.ez
 
 # Ignore package tarball (built via "mix hex.build").
-doccer_elixir-*.tar
+doccer-*.tar
 
 
 # Temporary files for e.g. tests

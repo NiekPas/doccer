@@ -1,8 +1,8 @@
-defmodule DoccerElixirTest do
+defmodule DoccerTest do
   use ExUnit.Case
-  doctest DoccerElixir
+  doctest Doccer
 
   test "greets the world" do
-    assert DoccerElixir.hello() == :world
+    assert Doccer.hello() == :world
   end
 end

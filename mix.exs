@@ -1,12 +1,13 @@
-defmodule DoccerElixir.MixProject do
+defmodule Doccer.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :doccer_elixir,
+      app: :doccer,
       version: "0.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
+      escript: [main_module: Doccer],
       deps: deps()
     ]
   end
