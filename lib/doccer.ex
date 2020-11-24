@@ -53,6 +53,12 @@ defmodule Doccer do
       get_generic(args, "--journal")
   end
 
+  defp get_tags(args)
+    get_generic(args, "--tags")
+    |> String.split(",")
+    |> Enum.map (fn tag -> String.trim() end)
+  end
+
   defp format_item_as(item) do
     """
     @article{#{item[:author_name]} #{item[:year]},
