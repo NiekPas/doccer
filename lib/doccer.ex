@@ -68,7 +68,7 @@ defmodule Doccer do
         jounal    =  "#{item[:year]}"
     }
     """
-end
+  end
 
   defp add_entry(args) do
       filename = args[0]
