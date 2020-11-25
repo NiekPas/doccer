@@ -28,3 +28,6 @@ doccer-*.tar
 
 # Compiled executable
 doccer
+
+# Documents for testing
+doc/
