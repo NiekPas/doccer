@@ -64,16 +64,16 @@ defmodule Doccer do
     end
   end
 
-  defp format_item_as(item) when is_binary(item), do: format_item_as(Jason.decode!(item))
+  defp format_bibtex_entry(entry) when is_binary(entry), do: format_bibtex_entry(Jason.decode!(entry))
 
-  defp format_item_as(item) do
+  defp format_bibtex_entry(entry) do
     """
-    @article{#{item["author_name"]} #{item["year"]},
-        author    = "#{item["author_name"]},
-        title     = "#{item["title"]},
-        year      =  #{item["year"]},
-        jounal    =  "#{item["journal"]}
-        publisher =  "#{item["publisher"]}
+    @article{#{entry["author_name"]} #{entry["year"]},
+        author    = "#{entry["author_name"]},
+        title     = "#{entry["title"]},
+        year      =  #{entry["year"]},
+        jounal    =  "#{entry["journal"]}
+        publisher =  "#{entry["publisher"]}
     }
     """
   end
@@ -124,7 +124,7 @@ defmodule Doccer do
 
     bibtex_list =
       Enum.map(library, fn entry ->
-        format_item_as(entry)
+        format_bibtex_entry(entry)
       end)
 
     Enum.join(bibtex_list, "\n")
