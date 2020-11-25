@@ -83,13 +83,15 @@ defmodule Doccer do
     end
   end
 
+  defp format_item_as(item) when is_binary(item), do: format_item_as(Jason.decode!(item))
+
   defp format_item_as(item) do
     """
-    @article{#{item[:author_name]} #{item[:year]},
-        author    = "#{item[:author_name]}",
-        title     = "#{item[:title]}",
-        year      =  #{item[:year]},
-        jounal    =  "#{item[:year]}"
+    @article{#{item["author_name"]} #{item["year"]},
+        author    = "#{item["author_name"]},
+        title     = "#{item["title"]},
+        year      =  #{item["year"]},
+        jounal    =  "#{item["journal"]}
     }
     """
   end
