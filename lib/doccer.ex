@@ -53,7 +53,8 @@ defmodule Doccer do
   defp get_year(args) do
     year_value = get_flag_value(args, "--year")
     # TODO validation
-    # raise "Invalid year format for year #{year_value}. Years should be 1-4 digits." unless year_value.match?(/[0-9]{,4}/)
+    # raise "Invalid year format for year #{year_value}. Years should be 1-4 digits."
+    # unless year_value.match?(/[0-9]{,4}/)
   end
 
   defp get_journal_name(args) do
