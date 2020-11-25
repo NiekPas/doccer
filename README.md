@@ -21,7 +21,7 @@ Pre-1.0 to-dos include:
 - [ ] Other import formats
 - [ ] Other export formats
 
-There is no official roadmap as of yet.
+There is no official roadmap as of yet (and there probably never will be).
 
 ## Installation
 
