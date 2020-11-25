@@ -111,7 +111,7 @@ defmodule Doccer do
   """
   def write_to_library(entry, path) do
     data_arr = Jason.decode!(File.read!(path))
-    data_arr = data_arr ++ entry
+    data_arr = data_arr ++ [entry]
 
     File.open(path, ["append"], fn file ->
       IO.write(file, Jason.encode!(data_arr))
