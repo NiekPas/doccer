@@ -68,6 +68,10 @@ defmodule Doccer do
     get_flag_value(args, "--folder")
   end
 
+  defp get_publisher(args) do
+    get_flag_value(args, "--publisher")
+  end
+
   @spec get_tags([...]) :: [...] | nil
   defp get_tags(args) do
     case get_flag_value(args, "--tags") do
@@ -90,6 +94,7 @@ defmodule Doccer do
         title     = "#{item["title"]},
         year      =  #{item["year"]},
         jounal    =  "#{item["journal"]}
+        publisher =  "#{item["publisher"]}
     }
     """
   end
@@ -103,6 +108,7 @@ defmodule Doccer do
     journal_name = get_journal_name(args)
     folder = get_folder(args)
     tags = get_tags(args)
+    publisher = get_publisher(args)
 
     %{
       title: title,
@@ -110,7 +116,8 @@ defmodule Doccer do
       year: year,
       journal_name: journal_name,
       folder: folder,
-      tags: tags
+      tags: tags,
+      publisher: publisher,
     }
     |> Jason.encode!()
   end

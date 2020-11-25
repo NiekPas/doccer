@@ -17,6 +17,11 @@ defmodule DoccerTest do
     assert Doccer.main(args) == :ok
   end
 
+  test "adds an entry with a publisher to the library" do
+    args = ["add", "--author", "Niek", "--publisher", "Polity Press"]
+    assert Doccer.main(args) == :ok
+  end
+
   test "exports the library" do
     args = ["export"]
     assert Doccer.main(args) == :ok

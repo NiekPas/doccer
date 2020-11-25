@@ -11,6 +11,7 @@ Currently supported fields are:
 - Journal
 - Folder (zero or one, for organizational purposes)
 - Tags (zero or more, for organizational purposes) (should be comma-seperated, see [Usage](#usage))
+- Publisher
 
 Pre-1.0 to-dos include:
 
