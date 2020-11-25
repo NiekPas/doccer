@@ -32,7 +32,7 @@ Ensure you have [Elixir](https://elixir-lang.org) installed (I am using `1.11.0`
 Add an item to your library:
 
 ```
-doccer add --author "David Graeber" --year "2015"
+doccer add --author "David Graeber" --year "2015" --title "The Utopia of Rules: On Technology, Stupidity, and the Secret Joys of Bureaucracy"
 ```
 
 With folders and tags:
