@@ -15,8 +15,9 @@ Currently supported fields are:
 Pre-1.0 to-dos include:
 
 - [ ] Removing items
-- [ ] Simple text support
-- [ ] Regex search support
+- [ ] Naive text search support
+- [ ] Field text search support
+- [ ] Field regex search support
 - [ ] Bibtex import support
 - [ ] Other import formats
 - [ ] Other export formats
