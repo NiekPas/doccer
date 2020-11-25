@@ -124,7 +124,7 @@ defmodule Doccer do
   @doc """
   Appends `entry` to the library at `path`
   """
-  def write_to_library(entry, path) do
+  defp write_to_library(entry, path) do
     data_arr = Jason.decode!(File.read!(path))
     data_arr = data_arr ++ [entry]
 
