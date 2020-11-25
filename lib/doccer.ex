@@ -36,6 +36,7 @@ defmodule Doccer do
     end
   end
 
+  @spec get_flag_value([...], String.t()) :: String.t() | nil
   defp get_flag_value(args, flag) do
     index = Enum.find_index(args, fn arg -> arg == flag end)
     if index == nil, do: nil, else: Enum.at(args, index + 1)
@@ -59,6 +60,7 @@ defmodule Doccer do
     get_flag_value(args, "--journal")
   end
 
+  @spec get_tags([...]) :: [...] | nil
   defp get_tags(args) do
     case get_flag_value(args, "--tags") do
       nil ->
@@ -106,6 +108,7 @@ defmodule Doccer do
     File.open("~/.doccer/doccer-library.json")
   end
 
+  @spec write_to_library(String.t(), String.t()) :: :ok | {:error, atom}
   @doc """
   Appends `entry` to the library at `path`
   """
