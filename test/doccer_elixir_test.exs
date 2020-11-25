@@ -1,8 +1,9 @@
 defmodule DoccerTest do
   use ExUnit.Case
-  doctest Doccer
+  # doctest Doccer
 
-  test "greets the world" do
-    assert Doccer.hello() == :world
+  test "adds an entry to the library" do
+    args = ["add", "--author", "Niek"]
+    assert Doccer.main args == :world
   end
 end

@@ -17,8 +17,9 @@ defmodule Doccer do
 
   def main(args) do
     library_path = "/Users/niekvandepas/.doccer/doccer-library.json"
-    unless File.exists? library_path do
-      IO.puts "gotta innit"
+
+    unless File.exists?(library_path) do
+      IO.puts("gotta innit")
       init_library()
     end
 
@@ -26,8 +27,12 @@ defmodule Doccer do
       "add" ->
         json_entry = format_json_entry(args -- [arg_value])
         write_to_library(json_entry, library_path)
-      "export" -> IO.puts "TODO"
-      _ -> IO.puts "Invalid command line argument"
+
+      "export" ->
+        IO.puts("TODO")
+
+      _ ->
+        IO.puts("Invalid command line argument")
     end
   end
 
@@ -91,7 +96,7 @@ defmodule Doccer do
   end
 
   defp init_library do
-    IO.puts "init lib"
+    IO.puts("init lib")
     File.open("~/.doccer/doccer-library.json")
   end
 
@@ -99,8 +104,9 @@ defmodule Doccer do
   Appends `entry` to the library at `path`
   """
   def write_to_library(entry, path) do
-    data_arr = Jason.decode! File.read!(path)
+    data_arr = Jason.decode!(File.read!(path))
     data_arr = data_arr ++ entry
+
     File.open(path, ["append"], fn file ->
       IO.write(file, Jason.encode!(data_arr))
       :ok
