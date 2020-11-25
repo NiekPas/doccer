@@ -39,7 +39,7 @@ Add an item to your library:
 doccer add --author "David Graeber" --year "2015" --title "The Utopia of Rules: On Technology, Stupidity, and the Secret Joys of Bureaucracy"
 ```
 
-With folders and tags:
+With a folder and tags:
 
 ```
 doccer add --author "David Graeber" --year "2015" --folder "Social Theory" --tags "Bureaucracy, anthopology"
