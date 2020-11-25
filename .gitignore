@@ -25,3 +25,6 @@ doccer-*.tar
 
 # Temporary files for e.g. tests
 /tmp
+
+# Compiled executable
+doccer
