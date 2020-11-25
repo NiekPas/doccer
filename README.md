@@ -12,6 +12,7 @@ Currently supported fields are:
 - Folder (zero or one, for organizational purposes)
 - Tags (zero or more, for organizational purposes) (should be comma-seperated, see [Usage](#usage))
 - Publisher
+- Type (see [Bibtex Entry Types](https://www.bibtex.com/e/entry-types/))
 
 Pre-1.0 to-dos include:
 
@@ -19,7 +20,7 @@ Pre-1.0 to-dos include:
 - [ ] Naive text search support
 - [ ] Field text search support
 - [ ] Field regex search support
-- [ ] Support Bibtex types other than `article`
+- [x] Support Bibtex types other than `article`
 - [ ] Bibtex import support
 - [ ] Other import formats
 - [ ] Other export formats
