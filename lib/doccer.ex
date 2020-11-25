@@ -30,9 +30,8 @@ defmodule Doccer do
   end
 
   defp get_arg_value(args, flag) do
-      if args.index(flag) == nil, do: nil
-      value_index = args.index(flag) + 1
-      args[value_index]
+      index = Enum.index(args, fn arg -> arg == flag end)
+      if index == nil, do: nil, else: args[index + 1]
   end
 
   defp get_title(args) do
