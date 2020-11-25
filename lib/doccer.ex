@@ -34,11 +34,24 @@ defmodule Doccer do
         end
 
       "export" ->
-        IO.puts("TODO")
+        bibtex = export_bibtex_library(library_path)
+
+        if Enum.member?(args, "--copy") do
+          copy_to_clipboard(bibtex)
+        else
+          IO.puts(bibtex)
+        end
 
       _ ->
         IO.puts("Invalid command line argument")
     end
+  end
+
+  defp copy_to_clipboard(value) when is_binary(value) do
+    path = System.find_executable("pbcopy")
+    port = Port.open({:spawn_executable, path}, [])
+    send(port, {self(), {:command, value}})
+    :ok
   end
 
   @spec get_flag_value([...], String.t()) :: String.t() | nil
@@ -131,5 +144,16 @@ defmodule Doccer do
     data_arr = data_arr ++ [entry]
 
     File.write(path, Jason.encode!(data_arr))
+  end
+
+  defp export_bibtex_library(path) do
+    library = Jason.decode!(File.read!(path))
+
+    bibtex_list =
+      Enum.map(library, fn entry ->
+        format_item_as(entry)
+      end)
+
+    Enum.join(bibtex_list, "\n")
   end
 end

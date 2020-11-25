@@ -16,4 +16,14 @@ defmodule DoccerTest do
     args = ["add", "--author", "Niek", "--folder", "SomeFolder"]
     assert Doccer.main(args) == :ok
   end
+
+  test "exports the library" do
+    args = ["export"]
+    assert Doccer.main(args) == :ok
+  end
+
+  test "exports the library with coping" do
+    args = ["export", "--copy"]
+    assert Doccer.main(args) == :ok
+  end
 end
