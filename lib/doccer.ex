@@ -23,7 +23,7 @@ defmodule Doccer do
 
     case arg_value = Enum.at(args, 0) do
       "add" ->
-        add_entry(args -- [arg_value])
+        json_entry = format_json_entry(args -- [arg_value])
       "export" -> IO.puts "TODO"
       _ -> IO.puts "Invalid command line argument"
     end
@@ -69,23 +69,23 @@ defmodule Doccer do
     """
   end
 
-  defp add_entry(args) do
-    filename = Enum.at(args, 0)
-    unless File.exists?(filename), do: raise "#{filename} is not a file"
-
+  def format_json_entry(flags)
     title = get_title(args)
     author_name = get_author_name(args)
     year = get_year(args)
     journal_name = get_journal_name(args)
+    folder = get_folder(args)
+    tags = get_tags(args)
 
-    item = %{
-        title: title,
-        author_name: author_name,
-        year: year,
-        journal_name: journal_name
+    %{
+      title: title,
+      author_name: author_name,
+      year: year,
+      journal_name: journal_name,
+      folder: folder,
+      tags: tags
     }
-
-    IO.puts format_item_as(item)
+    |> Jason.encode!()
   end
 
   defp init_library do
