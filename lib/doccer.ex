@@ -29,32 +29,32 @@ defmodule Doccer do
     end
   end
 
-  defp get_generic(args, flag) do
+  defp get_arg_value(args, flag) do
       if args.index(flag) == nil, do: nil
       value_index = args.index(flag) + 1
       args[value_index]
   end
 
   defp get_title(args) do
-      get_generic(args, "--title")
+      get_arg_value(args, "--title")
   end
 
   defp get_author_name(args) do
-    get_generic(args, "--author")
+    get_arg_value(args, "--author")
   end
 
   defp get_year(args) do
-      year_value = get_generic(args, "--year")
+      year_value = get_arg_value(args, "--year")
       # TODO validation
       # raise "Invalid year format for year #{year_value}. Years should be 1-4 digits." unless year_value.match?(/[0-9]{,4}/)
   end
 
   defp get_journal_name(args) do
-      get_generic(args, "--journal")
+      get_arg_value(args, "--journal")
   end
 
   defp get_tags(args)
-    get_generic(args, "--tags")
+    get_arg_value(args, "--tags")
     |> String.split(",")
     |> Enum.map (fn tag -> String.trim() end)
   end
