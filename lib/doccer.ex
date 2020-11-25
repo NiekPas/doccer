@@ -60,9 +60,15 @@ defmodule Doccer do
   end
 
   defp get_tags(args) do
-    get_flag_value(args, "--tags")
-    |> String.split(",")
-    |> Enum.map(fn tag -> String.trim(tag) end)
+    case get_flag_value(args, "--tags") do
+      nil ->
+        nil
+
+      args ->
+        args
+        |> String.split(",")
+        |> Enum.map(fn tag -> String.trim(tag) end)
+    end
   end
 
   defp format_item_as(item) do
