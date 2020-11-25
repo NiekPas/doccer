@@ -69,12 +69,12 @@ defmodule Doccer do
     """
   end
 
-  def format_json_entry(flags)
+  def format_json_entry(args) do
     title = get_title(args)
     author_name = get_author_name(args)
     year = get_year(args)
     journal_name = get_journal_name(args)
-    folder = get_folder(args)
+    # folder = get_folder(args)
     tags = get_tags(args)
 
     %{
@@ -82,7 +82,7 @@ defmodule Doccer do
       author_name: author_name,
       year: year,
       journal_name: journal_name,
-      folder: folder,
+      # folder: folder,
       tags: tags
     }
     |> Jason.encode!()
