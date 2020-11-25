@@ -11,4 +11,9 @@ defmodule DoccerTest do
     args = ["add"]
     assert catch_error(Doccer.main(args))
   end
+
+  test "adds an entry with a folder to the library" do
+    args = ["add", "--author", "Niek", "--folder", "SomeFolder"]
+    assert Doccer.main(args) == :ok
+  end
 end
