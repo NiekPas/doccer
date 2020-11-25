@@ -14,12 +14,12 @@ Currently supported fields are:
 
 Pre-1.0 to-dos include:
 
-- [] Removing items
-- [] Simple text support
-- [] Regex search support
-- [] Bibtex import support
-- [] Other import formats
-- [] Other export formats
+- [ ] Removing items
+- [ ] Simple text support
+- [ ] Regex search support
+- [ ] Bibtex import support
+- [ ] Other import formats
+- [ ] Other export formats
 
 There is no official roadmap as of yet.
 
