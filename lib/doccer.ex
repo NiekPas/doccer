@@ -26,7 +26,12 @@ defmodule Doccer do
     case arg_value = Enum.at(args, 0) do
       "add" ->
         json_entry = format_json_entry(args -- [arg_value])
-        write_to_library(json_entry, library_path)
+
+        if json_entry == nil do
+          raise "Please provide at least one field for this entry."
+        else
+          write_to_library(json_entry, library_path)
+        end
 
       "export" ->
         IO.puts("TODO")
@@ -84,6 +89,8 @@ defmodule Doccer do
     }
     """
   end
+
+  def format_json_entry([]), do: nil
 
   def format_json_entry(args) do
     title = get_title(args)
