@@ -64,7 +64,8 @@ defmodule Doccer do
     end
   end
 
-  defp format_bibtex_entry(entry) when is_binary(entry), do: format_bibtex_entry(Jason.decode!(entry))
+  defp format_bibtex_entry(entry) when is_binary(entry),
+    do: format_bibtex_entry(Jason.decode!(entry))
 
   defp format_bibtex_entry(entry) do
     """
