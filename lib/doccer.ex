@@ -51,6 +51,7 @@ defmodule Doccer do
   defp get_field(:journal, args), do: get_flag_value(args, "--journal")
   defp get_field(:folder, args), do: get_flag_value(args, "--folder")
   defp get_field(:publisher, args), do: get_flag_value(args, "--publisher")
+  defp get_field(:type, args), do: get_flag_value(args, "--type")
 
   defp get_field(:tags, args) do
     case get_flag_value(args, "--tags") do
@@ -69,7 +70,9 @@ defmodule Doccer do
 
   defp format_bibtex_entry(entry) do
     """
-    @article{#{entry["author_name"]} #{entry["year"]},
+    @#{if entry["type"] == nil, do: "article", else: entry["type"]}{#{entry["author_name"]} #{
+      entry["year"]
+    },
         author    = "#{entry["author_name"]},
         title     = "#{entry["title"]},
         year      =  #{entry["year"]},
@@ -89,6 +92,13 @@ defmodule Doccer do
     folder = get_field(:folder, args)
     tags = get_field(:tags, args)
     publisher = get_field(:publisher, args)
+    type = get_field(:type, args)
+
+    unless Enum.member?(bibtex_types(), type) or type == nil do
+      raise "Invalid bibtex entry type: #{type}.\n\nType should be one of: #{
+              bibtex_types() |> Enum.join(", ")
+            }.\n\nFor more information, see: https://www.bibtex.com/e/entry-types/\n"
+    end
 
     %{
       title: title,
@@ -97,7 +107,8 @@ defmodule Doccer do
       journal_name: journal,
       folder: folder,
       tags: tags,
-      publisher: publisher
+      publisher: publisher,
+      type: type
     }
     |> Jason.encode!()
   end
@@ -130,4 +141,22 @@ defmodule Doccer do
 
     Enum.join(bibtex_list, "\n")
   end
+
+  defp bibtex_types,
+    do: [
+      "article",
+      "book",
+      "booklet",
+      "conference",
+      "inbook",
+      "incollection",
+      "inproceedings",
+      "manual",
+      "masterthesis",
+      "misc",
+      "phdthesis",
+      "proceedings",
+      "techreport",
+      "unpublished"
+    ]
 end

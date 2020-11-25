@@ -22,6 +22,16 @@ defmodule DoccerTest do
     assert Doccer.main(args) == :ok
   end
 
+  test "adds an entry with a type to the library" do
+    args = ["add", "--author", "Niek", "--type", "article"]
+    assert Doccer.main(args) == :ok
+  end
+
+  test "refuses to add an entry with an invalid type to the library" do
+    args = ["add", "--author", "Niek", "--type", "garbage"]
+    assert catch_error(Doccer.main(args))
+  end
+
   test "exports the library" do
     args = ["export"]
     assert Doccer.main(args) == :ok
