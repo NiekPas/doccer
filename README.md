@@ -19,6 +19,7 @@ Pre-1.0 to-dos include:
 - [ ] Naive text search support
 - [ ] Field text search support
 - [ ] Field regex search support
+- [ ] Support Bibtex types other than `article`
 - [ ] Bibtex import support
 - [ ] Other import formats
 - [ ] Other export formats
