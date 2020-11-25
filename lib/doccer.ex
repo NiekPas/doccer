@@ -113,9 +113,6 @@ defmodule Doccer do
     data_arr = Jason.decode!(File.read!(path))
     data_arr = data_arr ++ [entry]
 
-    File.open(path, ["append"], fn file ->
-      IO.write(file, Jason.encode!(data_arr))
-      :ok
-    end)
+    File.write(path, Jason.encode!(data_arr))
   end
 end
