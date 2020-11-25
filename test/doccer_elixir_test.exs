@@ -4,6 +4,6 @@ defmodule DoccerTest do
 
   test "adds an entry to the library" do
     args = ["add", "--author", "Niek"]
-    assert Doccer.main args == :world
+    assert Doccer.main(args) == :ok
   end
 end
