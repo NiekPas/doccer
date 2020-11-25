@@ -21,9 +21,9 @@ defmodule Doccer do
       init_library()
     end
 
-    case args[0] do
+    case arg_value = Enum.at(args, 0) do
       "add" ->
-        add_entry(args -- [args[0]])
+        add_entry(args -- [arg_value])
       "export" -> IO.puts "TODO"
       _ -> IO.puts "Invalid command line argument"
     end
@@ -70,8 +70,8 @@ defmodule Doccer do
   end
 
   defp add_entry(args) do
-    filename = args[0]
-    unless File.file?(filename), do: raise "#{filename} is not a file"
+    filename = Enum.at(args, 0)
+    unless File.exists?(filename), do: raise "#{filename} is not a file"
 
     title = get_title(args)
     author_name = get_author_name(args)
