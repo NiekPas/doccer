@@ -16,7 +16,8 @@ defmodule Doccer do
   def main([]), do: IO.puts("Please provide a command-line argument")
 
   def main(args) do
-    unless File.exists? "~/.doccer/doccer-library.json" do
+    library_path = "/Users/niekvandepas/.doccer/doccer-library.json"
+    unless File.exists? library_path do
       IO.puts "gotta innit"
       init_library()
     end
@@ -24,14 +25,15 @@ defmodule Doccer do
     case arg_value = Enum.at(args, 0) do
       "add" ->
         json_entry = format_json_entry(args -- [arg_value])
+        write_to_library(json_entry, library_path)
       "export" -> IO.puts "TODO"
       _ -> IO.puts "Invalid command line argument"
     end
   end
 
   defp get_flag_value(args, flag) do
-    index = Enum.index(args, fn arg -> arg == flag end)
-    if index == nil, do: nil, else: args[index + 1]
+    index = Enum.find_index(args, fn arg -> arg == flag end)
+    if index == nil, do: nil, else: Enum.at(args, index + 1)
   end
 
   defp get_title(args) do
@@ -91,5 +93,17 @@ defmodule Doccer do
   defp init_library do
     IO.puts "init lib"
     File.open("~/.doccer/doccer-library.json")
+  end
+
+  @doc """
+  Appends `entry` to the library at `path`
+  """
+  def write_to_library(entry, path) do
+    data_arr = Jason.decode! File.read!(path)
+    data_arr = data_arr ++ entry
+    File.open(path, ["append"], fn file ->
+      IO.write(file, Jason.encode!(data_arr))
+      :ok
+    end)
   end
 end
