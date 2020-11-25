@@ -1,18 +1,4 @@
 defmodule Doccer do
-  @moduledoc """
-  Documentation for `Doccer`.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Doccer.hello()
-      :world
-
-  """
-
   def main([]), do: IO.puts("Please provide a command-line argument")
 
   def main(args) do
