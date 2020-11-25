@@ -45,35 +45,14 @@ defmodule Doccer do
     if index == nil, do: nil, else: Enum.at(args, index + 1)
   end
 
-  defp get_title(args) do
-    get_flag_value(args, "--title")
-  end
+  defp get_field(:title, args), do: get_flag_value(args, "--title")
+  defp get_field(:author, args), do: get_flag_value(args, "--author")
+  defp get_field(:year, args), do: get_flag_value(args, "--year")
+  defp get_field(:journal, args), do: get_flag_value(args, "--journal")
+  defp get_field(:folder, args), do: get_flag_value(args, "--folder")
+  defp get_field(:publisher, args), do: get_flag_value(args, "--publisher")
 
-  defp get_author_name(args) do
-    get_flag_value(args, "--author")
-  end
-
-  defp get_year(args) do
-    get_flag_value(args, "--year")
-    # TODO validation
-    # raise "Invalid year format for year #{year_value}. Years should be 1-4 digits."
-    # unless year_value.match?(/[0-9]{,4}/)
-  end
-
-  defp get_journal_name(args) do
-    get_flag_value(args, "--journal")
-  end
-
-  defp get_folder(args) do
-    get_flag_value(args, "--folder")
-  end
-
-  defp get_publisher(args) do
-    get_flag_value(args, "--publisher")
-  end
-
-  @spec get_tags([...]) :: [...] | nil
-  defp get_tags(args) do
+  defp get_field(:tags, args) do
     case get_flag_value(args, "--tags") do
       nil ->
         nil
@@ -102,22 +81,22 @@ defmodule Doccer do
   def format_json_entry([]), do: nil
 
   def format_json_entry(args) do
-    title = get_title(args)
-    author_name = get_author_name(args)
-    year = get_year(args)
-    journal_name = get_journal_name(args)
-    folder = get_folder(args)
-    tags = get_tags(args)
-    publisher = get_publisher(args)
+    title = get_field(:title, args)
+    author = get_field(:author, args)
+    year = get_field(:year, args)
+    journal = get_field(:journal, args)
+    folder = get_field(:folder, args)
+    tags = get_field(:tags, args)
+    publisher = get_field(:publisher, args)
 
     %{
       title: title,
-      author_name: author_name,
+      author_name: author,
       year: year,
-      journal_name: journal_name,
+      journal_name: journal,
       folder: folder,
       tags: tags,
-      publisher: publisher,
+      publisher: publisher
     }
     |> Jason.encode!()
   end
