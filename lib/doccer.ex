@@ -52,10 +52,10 @@ defmodule Doccer do
       get_arg_value(args, "--journal")
   end
 
-  defp get_tags(args)
+  defp get_tags(args) do
     get_arg_value(args, "--tags")
     |> String.split(",")
-    |> Enum.map (fn tag -> String.trim() end)
+    |> Enum.map(fn tag -> String.trim(tag) end)
   end
 
   defp format_item_as(item) do
