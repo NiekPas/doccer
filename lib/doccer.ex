@@ -35,7 +35,7 @@ defmodule Doccer do
   end
 
   defp get_title(args) do
-      get_arg_value(args, "--title")
+    get_arg_value(args, "--title")
   end
 
   defp get_author_name(args) do
@@ -43,13 +43,13 @@ defmodule Doccer do
   end
 
   defp get_year(args) do
-      year_value = get_arg_value(args, "--year")
-      # TODO validation
-      # raise "Invalid year format for year #{year_value}. Years should be 1-4 digits." unless year_value.match?(/[0-9]{,4}/)
+    year_value = get_arg_value(args, "--year")
+    # TODO validation
+    # raise "Invalid year format for year #{year_value}. Years should be 1-4 digits." unless year_value.match?(/[0-9]{,4}/)
   end
 
   defp get_journal_name(args) do
-      get_arg_value(args, "--journal")
+    get_arg_value(args, "--journal")
   end
 
   defp get_tags(args) do
@@ -70,26 +70,26 @@ defmodule Doccer do
   end
 
   defp add_entry(args) do
-      filename = args[0]
-      unless File.file?(filename), do: raise "#{filename} is not a file"
+    filename = args[0]
+    unless File.file?(filename), do: raise "#{filename} is not a file"
 
-      title = get_title(args)
-      author_name = get_author_name(args)
-      year = get_year(args)
-      journal_name = get_journal_name(args)
+    title = get_title(args)
+    author_name = get_author_name(args)
+    year = get_year(args)
+    journal_name = get_journal_name(args)
 
-      item = %{
-          title: title,
-          author_name: author_name,
-          year: year,
-          journal_name: journal_name
-      }
+    item = %{
+        title: title,
+        author_name: author_name,
+        year: year,
+        journal_name: journal_name
+    }
 
-      IO.puts format_item_as(item)
+    IO.puts format_item_as(item)
   end
 
   defp init_library do
-      IO.puts "init lib"
-      File.open("~/.doccer/doccer-library.json")
+    IO.puts "init lib"
+    File.open("~/.doccer/doccer-library.json")
   end
 end
