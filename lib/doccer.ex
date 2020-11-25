@@ -16,11 +16,10 @@ defmodule Doccer do
   def main([]), do: IO.puts("Please provide a command-line argument")
 
   def main(args) do
-    library_path = "/Users/niekvandepas/.doccer/doccer-library.json"
+    library_path = "#{System.fetch_env!("HOME")}/.doccer/doccer-library.json"
 
     unless File.exists?(library_path) do
-      IO.puts("gotta innit")
-      init_library()
+      init_library(library_path)
     end
 
     case arg_value = Enum.at(args, 0) do
@@ -130,9 +129,11 @@ defmodule Doccer do
     |> Jason.encode!()
   end
 
-  defp init_library do
-    IO.puts("init lib")
-    File.open("~/.doccer/doccer-library.json")
+  defp init_library(path) do
+    library_directory = Path.dirname(path)
+    unless File.dir?(library_directory), do: File.mkdir(library_directory)
+    IO.puts("No library file found at #{path}, creating.")
+    File.write(path, "[]\n")
   end
 
   @spec write_to_library(String.t(), String.t()) :: :ok | {:error, atom}
