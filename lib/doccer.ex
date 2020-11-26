@@ -8,9 +8,9 @@ defmodule Doccer do
       init_library(library_path)
     end
 
-    case arg_value = Enum.at(args, 0) do
+    case command = Enum.at(args, 0) do
       "add" ->
-        json_entry = format_json_entry(args -- [arg_value])
+        json_entry = format_json_entry(args -- [command])
 
         if json_entry == nil do
           raise "Please provide at least one field for this entry."
