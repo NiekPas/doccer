@@ -109,7 +109,8 @@ defmodule Doccer do
       folder: folder,
       tags: tags,
       publisher: publisher,
-      type: type
+      type: type,
+      id: UUID.uuid1()
     }
     |> Jason.encode!()
   end
