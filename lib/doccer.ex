@@ -58,6 +58,7 @@ defmodule Doccer do
       nil ->
         nil
 
+      # Transform comma-seperated tags to list
       args ->
         args
         |> String.split(",")
@@ -122,8 +123,7 @@ defmodule Doccer do
 
   @spec write_to_library(String.t(), String.t()) :: :ok | {:error, atom}
   defp write_to_library(entry, path) do
-    data_arr = Jason.decode!(File.read!(path))
-    data_arr = data_arr ++ [entry]
+    data_arr = Jason.decode!(File.read!(path)) ++ [entry]
 
     File.write(path, Jason.encode!(data_arr))
   end
