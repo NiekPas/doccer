@@ -10,13 +10,15 @@ defmodule Doccer do
 
     case command = Enum.at(args, 0) do
       "add" ->
-        json_entry = format_json_entry(args -- [command])
+        fields = get_fields_from_args(args -- [command])
 
-        if json_entry == nil do
+        if Enum.all?(fields, fn {field_name, value} -> field_name == :id or value == nil end) do
           raise "Please provide at least one field for this entry."
-        else
-          write_to_library(json_entry, library_path)
         end
+
+        json_entry = format_json_entry(fields)
+
+        write_to_library(json_entry, library_path)
 
       "export" ->
         bibtex = export_bibtex_library(library_path)
@@ -37,6 +39,30 @@ defmodule Doccer do
     port = Port.open({:spawn_executable, path}, [])
     send(port, {self(), {:command, value}})
     :ok
+  end
+
+  @spec get_fields_from_args(list(), list()) :: map()
+  defp get_fields_from_args(
+         args,
+         fields \\ [
+           :title,
+           :author,
+           :year,
+           :journal,
+           :folder,
+           :publisher,
+           :type,
+           :tags
+         ]
+       )
+       when is_list(fields) do
+    fields
+    |> Enum.map(fn field ->
+      %{field => get_field(field, args)}
+    end)
+    |> Enum.reduce(fn val, acc ->
+      Map.merge(acc, val)
+    end)
   end
 
   defp get_field(:title, args), do: get_flag_value(args, "--title")
@@ -85,31 +111,22 @@ defmodule Doccer do
 
   def format_json_entry([]), do: nil
 
-  def format_json_entry(args) do
-    title = get_field(:title, args)
-    author = get_field(:author, args)
-    year = get_field(:year, args)
-    journal = get_field(:journal, args)
-    folder = get_field(:folder, args)
-    tags = get_field(:tags, args)
-    publisher = get_field(:publisher, args)
-    type = get_field(:type, args)
-
-    unless Enum.member?(bibtex_types(), type) or type == nil do
-      raise "Invalid bibtex entry type: #{type}.\n\nType should be one of: #{
+  def format_json_entry(fields) do
+    unless Enum.member?(bibtex_types(), fields[:type]) or fields[:type] == nil do
+      raise "Invalid bibtex entry type: #{fields[:type]}.\n\nType should be one of: #{
               bibtex_types() |> Enum.join(", ")
             }.\n\nFor more information, see: https://www.bibtex.com/e/entry-types/\n"
     end
 
     %{
-      title: title,
-      author_name: author,
-      year: year,
-      journal_name: journal,
-      folder: folder,
-      tags: tags,
-      publisher: publisher,
-      type: type,
+      title: fields[:title],
+      author_name: fields[:author],
+      year: fields[:year],
+      journal_name: fields[:journal],
+      folder: fields[:folder],
+      tags: fields[:tags],
+      publisher: fields[:publisher],
+      type: fields[:type],
       id: UUID.uuid1()
     }
     |> Jason.encode!()
