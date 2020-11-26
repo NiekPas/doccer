@@ -121,9 +121,6 @@ defmodule Doccer do
   end
 
   @spec write_to_library(String.t(), String.t()) :: :ok | {:error, atom}
-  @doc """
-  Appends `entry` to the library at `path`
-  """
   defp write_to_library(entry, path) do
     data_arr = Jason.decode!(File.read!(path))
     data_arr = data_arr ++ [entry]
