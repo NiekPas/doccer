@@ -39,12 +39,6 @@ defmodule Doccer do
     :ok
   end
 
-  @spec get_flag_value([...], String.t()) :: String.t() | nil
-  defp get_flag_value(args, flag) do
-    index = Enum.find_index(args, fn arg -> arg == flag end)
-    if index == nil, do: nil, else: Enum.at(args, index + 1)
-  end
-
   defp get_field(:title, args), do: get_flag_value(args, "--title")
   defp get_field(:author, args), do: get_flag_value(args, "--author")
   defp get_field(:year, args), do: get_flag_value(args, "--year")
@@ -64,6 +58,12 @@ defmodule Doccer do
         |> String.split(",")
         |> Enum.map(fn tag -> String.trim(tag) end)
     end
+  end
+
+  @spec get_flag_value([...], String.t()) :: String.t() | nil
+  defp get_flag_value(args, flag) do
+    index = Enum.find_index(args, fn arg -> arg == flag end)
+    if index == nil, do: nil, else: Enum.at(args, index + 1)
   end
 
   defp format_bibtex_entry(entry) when is_binary(entry),
