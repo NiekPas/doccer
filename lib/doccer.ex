@@ -10,7 +10,11 @@ defmodule Doccer do
 
     case command = Enum.at(args, 0) do
       "add" ->
-        fields = get_fields_from_args(args -- [command])
+        fields =
+          flags_from_args(args)
+          |> Enum.filter(fn {flag, _value} ->
+            Enum.member?(fields(), flag)
+          end)
 
         # Ensure there is at least one field given
         if Enum.all?(fields, fn {field_name, value} -> field_name == :id or value == nil end) do
@@ -83,6 +87,18 @@ defmodule Doccer do
     end)
   end
 
+  defp flags_from_args(args) when is_list(args) do
+    args
+    |> Enum.chunk_every(2, 1)
+    |> Enum.reduce([], fn
+      ["--" <> flag, val], acc ->
+        acc ++ [{String.to_atom(flag), val}]
+
+      _, acc ->
+        acc
+    end)
+  end
+
   defp get_field(:title, args), do: get_flag_value(args, "--title")
   defp get_field(:author, args), do: get_flag_value(args, "--author")
   defp get_field(:year, args), do: get_flag_value(args, "--year")
@@ -129,24 +145,19 @@ defmodule Doccer do
 
   def format_json_entry([]), do: nil
 
-  def format_json_entry(fields) do
-    unless Enum.member?(bibtex_types(), fields[:type]) or fields[:type] == nil do
+  def format_json_entry(fields) when is_list(fields) do
+    entry_type = Keyword.get(fields, :type)
+
+    unless Enum.member?(bibtex_types(), entry_type) or entry_type == nil do
       raise "Invalid bibtex entry type: #{fields[:type]}.\n\nType should be one of: #{
               bibtex_types() |> Enum.join(", ")
             }.\n\nFor more information, see: https://www.bibtex.com/e/entry-types/\n"
     end
 
-    %{
-      title: fields[:title],
-      author: fields[:author],
-      year: fields[:year],
-      journal_name: fields[:journal],
-      folder: fields[:folder],
-      tags: fields[:tags],
-      publisher: fields[:publisher],
-      type: fields[:type],
-      id: UUID.uuid1()
-    }
+    fields
+    |> Enum.reduce(%{"id" => UUID.uuid1()}, fn {field_type, field_value}, acc ->
+      Map.merge(acc, %{field_type => field_value})
+    end)
   end
 
   defp init_library(path) do
@@ -193,5 +204,17 @@ defmodule Doccer do
       "proceedings",
       "techreport",
       "unpublished"
+    ]
+
+  defp fields,
+    do: [
+      :title,
+      :author,
+      :year,
+      :journal,
+      :folder,
+      :publisher,
+      :type,
+      :tags
     ]
 end
