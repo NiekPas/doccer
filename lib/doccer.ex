@@ -34,7 +34,7 @@ defmodule Doccer do
 
         fields =
           get_fields_from_args(args -- [command])
-          |> Enum.reject(fn {field_name, field_value} -> field_value == nil end)
+          |> Enum.reject(fn {_, field_value} -> field_value == nil end)
 
         updated_library =
           Enum.reject(library, fn entry ->
