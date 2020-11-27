@@ -42,7 +42,7 @@ doccer add --author "David Graeber" --year "2015" --title "The Utopia of Rules: 
 With a folder and tags:
 
 ```
-doccer add --author "David Graeber" --year "2015" --folder "Social Theory" --tags "Bureaucracy, anthopology"
+doccer add --author "David Graeber" --year "2015" --title "The Utopia of Rules: On Technology, Stupidity, and the Secret Joys of Bureaucracy" --folder "Social Theory" --tags "Bureaucracy, anthopology"
 ```
 
 Remove all items matching a given field from the library (case-insensitive):
