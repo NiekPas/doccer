@@ -129,7 +129,6 @@ defmodule Doccer do
       type: fields[:type],
       id: UUID.uuid1()
     }
-    |> Jason.encode!()
   end
 
   defp init_library(path) do
@@ -141,9 +140,9 @@ defmodule Doccer do
 
   @spec write_to_library(String.t(), String.t()) :: :ok | {:error, atom}
   defp write_to_library(entry, path) do
-    data_arr = Jason.decode!(File.read!(path)) ++ [entry]
+    library = Jason.decode!(File.read!(path)) ++ [entry]
 
-    File.write(path, Jason.encode!(data_arr))
+    File.write(path, Jason.encode!(library))
   end
 
   defp export_bibtex_library(path) do
