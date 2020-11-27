@@ -29,6 +29,22 @@ defmodule Doccer do
           IO.puts(bibtex)
         end
 
+      "remove" ->
+        library = Jason.decode!(File.read!(library_path))
+
+        fields =
+          get_fields_from_args(args -- [command])
+          |> Enum.reject(fn {field_name, field_value} -> field_value == nil end)
+
+        updated_library =
+          Enum.reject(library, fn entry ->
+            Enum.all?(fields, fn {field_name, field_value} ->
+              String.downcase(Map.fetch!(entry, Atom.to_string(field_name))) ==
+                String.downcase(field_value)
+            end)
+          end)
+
+      write_content_to_file(Jason.encode!(updated_library), library_path)
       _ ->
         IO.puts("Invalid command line argument")
     end

@@ -41,4 +41,9 @@ defmodule DoccerTest do
     args = ["export", "--copy"]
     assert Doccer.main(args) == :ok
   end
+
+  test "removes an entry from the library" do
+    args = ["remove", "--author", "niek"]
+    assert Doccer.main(args) == :ok
+  end
 end

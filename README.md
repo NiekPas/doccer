@@ -16,7 +16,7 @@ Currently supported fields are:
 
 Pre-1.0 to-dos include:
 
-- [ ] Removing items
+- [x] Removing items
 - [ ] Naive text search support
 - [ ] Field text search support
 - [ ] Field regex search support
@@ -43,6 +43,12 @@ With a folder and tags:
 
 ```
 doccer add --author "David Graeber" --year "2015" --folder "Social Theory" --tags "Bureaucracy, anthopology"
+```
+
+Remove all items matching a given field from the library (case-insensitive):
+
+```
+doccer remove --author "Ayn Rand"
 ```
 
 Export the library as bibtex to stdout:
