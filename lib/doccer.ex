@@ -12,12 +12,12 @@ defmodule Doccer do
       "add" ->
         fields = get_fields_from_args(args -- [command])
 
+        # Ensure there is at least one field given
         if Enum.all?(fields, fn {field_name, value} -> field_name == :id or value == nil end) do
           raise "Please provide at least one field for this entry."
         end
 
         json_entry = format_json_entry(fields)
-
         write_to_library(json_entry, library_path)
 
       "export" ->
@@ -36,6 +36,7 @@ defmodule Doccer do
           get_fields_from_args(args -- [command])
           |> Enum.reject(fn {_, field_value} -> field_value == nil end)
 
+        # Remove entries with the matching fields (case-insensitive) from the map.
         updated_library =
           Enum.reject(library, fn entry ->
             Enum.all?(fields, fn {field_name, field_value} ->
@@ -44,7 +45,8 @@ defmodule Doccer do
             end)
           end)
 
-      write_content_to_file(Jason.encode!(updated_library), library_path)
+        write_content_to_file(Jason.encode!(updated_library), library_path)
+
       _ ->
         IO.puts("Invalid command line argument")
     end
