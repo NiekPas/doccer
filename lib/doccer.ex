@@ -97,10 +97,10 @@ defmodule Doccer do
 
   defp format_bibtex_entry(entry) do
     """
-    @#{if entry["type"] == nil, do: "article", else: entry["type"]}{#{entry["author_name"]} #{
+    @#{if entry["type"] == nil, do: "article", else: entry["type"]}{#{entry["author"]} #{
       entry["year"]
     },
-        author    = "#{entry["author_name"]},
+        author    = "#{entry["author"]},
         title     = "#{entry["title"]},
         year      =  #{entry["year"]},
         jounal    =  "#{entry["journal"]}
@@ -120,7 +120,7 @@ defmodule Doccer do
 
     %{
       title: fields[:title],
-      author_name: fields[:author],
+      author: fields[:author],
       year: fields[:year],
       journal_name: fields[:journal],
       folder: fields[:folder],
