@@ -135,14 +135,13 @@ defmodule Doccer do
     library_directory = Path.dirname(path)
     unless File.dir?(library_directory), do: File.mkdir(library_directory)
     IO.puts("No library file found at #{path}, creating.")
-    File.write(path, "[]\n")
+    write_content_to_file("[]\n", path)
   end
 
-  @spec write_to_library(String.t(), String.t()) :: :ok | {:error, atom}
   defp write_to_library(entry, path) do
     library = Jason.decode!(File.read!(path)) ++ [entry]
 
-    File.write(path, Jason.encode!(library))
+    write_content_to_file(Jason.encode!(library), path)
   end
 
   defp export_bibtex_library(path) do
@@ -154,6 +153,10 @@ defmodule Doccer do
       end)
 
     Enum.join(bibtex_list, "\n")
+  end
+
+  defp write_content_to_file(content, path) when is_binary(content) and is_binary(path) do
+    File.write(path, content)
   end
 
   defp bibtex_types,
