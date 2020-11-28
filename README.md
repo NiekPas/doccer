@@ -29,7 +29,7 @@ There is no official roadmap as of yet (and there probably never will be).
 
 ## Installation
 
-Ensure you have [Elixir](https://elixir-lang.org) installed (I am using `1.11.0`), then clone the repository and run `mix deps.get && mix escript.build` to create a `doccer` executable, which you can run using `./doccer`.
+Ensure you have [Elixir](https://elixir-lang.org) installed (version `1.9` or greater), then clone the repository and run `mix deps.get && mix escript.build` to create a `doccer` executable, which you can run using `./doccer`.
 
 ## Usage
 
