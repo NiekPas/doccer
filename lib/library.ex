@@ -11,6 +11,7 @@ defmodule Library do
   Appends `entry` to the library at `path`.
   """
   def append(entry, path) do
+    unless File.exists?(path), do: {:error, "No library found at #{path}."}
     library = Jason.decode!(File.read!(path)) ++ [entry]
 
     write_content_to_file(Jason.encode!(library), path)
