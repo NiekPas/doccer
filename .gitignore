@@ -31,3 +31,6 @@ doccer
 
 # Documents for testing
 doc/
+
+# ASDF Elixir version management
+.tool-versions
