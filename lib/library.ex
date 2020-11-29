@@ -6,6 +6,10 @@ defmodule Library do
     write_content_to_file("[]\n", path)
   end
 
+  @spec append(any, binary) :: :ok | {:error, atom}
+  @doc """
+  Appends `entry` to the library at `path`.
+  """
   def append(entry, path) do
     library = Jason.decode!(File.read!(path)) ++ [entry]
 
