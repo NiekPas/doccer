@@ -34,7 +34,7 @@ defmodule EntryTest do
     end)
   end
 
-  test "returns nil when asked to format an empty array as JSON" do
-    assert Entry.create_entry([]) == nil
+  test "returns an error tuple when asked to format an empty array as JSON" do
+    assert Entry.create_entry([]) == {:error, "Empty fieldset"}
   end
 end

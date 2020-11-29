@@ -22,22 +22,40 @@ defmodule Entry do
     |> Kernel.<>("}\n")
   end
 
-  @spec create_entry(list(any)) :: list(any) | nil
-  def create_entry([]), do: nil
+  @spec create_entry(list(any)) :: map | {:error, String.t()}
+  def create_entry([]), do: {:error, "Empty fieldset"}
 
   def create_entry(fields) when is_list(fields) do
-    entry_type = Keyword.get(fields, :type)
-    |> (fn
-      type when is_binary(type) -> String.to_atom(type)
-      type when is_atom(type) -> type
-    end).()
-
-    unless Enum.member?(bibtex_types(), entry_type) or entry_type == nil do
-      raise "Invalid bibtex entry type: #{fields[:type]}.\n\nType should be one of: #{
-              bibtex_types() |> Enum.join(", ")
-            }.\n\nFor more information, see: https://www.bibtex.com/e/entry-types/\n"
+    case validate_fields(fields) do
+      {:error, error_info} -> {:error, error_info}
+      :ok -> fields_to_entry(fields)
     end
+  end
 
+  defp validate_fields(fields) do
+    if Enum.all?(fields, fn {field_name, value} -> field_name == :id or value == nil end) do
+      {:error, "No fields for entry"}
+    else
+      validate_entry_type(Keyword.get(fields, :type))
+    end
+  end
+
+  defp validate_entry_type(type) do
+    entry_type = type
+      |> (fn
+        type when is_binary(type) -> String.to_atom(type)
+        type when is_atom(type) -> type
+      end).()
+
+      # Allow nil types as they default to :article
+      if Enum.member?(bibtex_types(), entry_type) or entry_type == nil do
+        :ok
+      else
+        {:error, "Invalid BibTeX type: #{type}"}
+      end
+  end
+
+  defp fields_to_entry(fields) do
     fields
     |> Enum.reduce(%{"id" => UUID.uuid1()}, fn {field_type, field_value}, acc ->
       Map.merge(acc, %{field_type => field_value})

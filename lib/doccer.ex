@@ -17,11 +17,6 @@ defmodule Doccer do
           end)
 
         # Ensure there is at least one field given
-        # TODO move this to Entry.validate or something
-        if Enum.all?(fields, fn {field_name, value} -> field_name == :id or value == nil end) do
-          raise "Please provide at least one field for this entry."
-        end
-
         json_entry = Entry.create_entry(fields)
         Library.append(json_entry, library_path)
 
