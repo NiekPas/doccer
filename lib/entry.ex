@@ -3,17 +3,22 @@ defmodule Entry do
     do: format_as_bibtex(Jason.decode!(entry))
 
   def format_as_bibtex(entry) do
+    bibtex_base = """
+    @#{if entry[:type] == nil, do: "article", else: entry[:type]}{#{
+      String.replace(entry[:author], " ", "")
+    }#{entry[:year]},
     """
-    @#{if entry["type"] == nil, do: "article", else: entry["type"]}{#{entry["author"]} #{
-      entry["year"]
-    },
-        author    = "#{entry["author"]},
-        title     = "#{entry["title"]},
-        year      =  #{entry["year"]},
-        jounal    =  "#{entry["journal"]}
-        publisher =  "#{entry["publisher"]}
-    }
-    """
+
+    Enum.reduce(entry, bibtex_base, fn
+      {_k, nil}, acc -> acc
+      # Id nor type should not be included in bibtex output
+      {:id, _v}, acc -> acc
+      {:type, _v}, acc -> acc
+      # Years should not be enclosed in quotes
+      {k, v}, acc when is_binary(v) -> acc <>   "    #{k} = \"#{v}\",\n"
+      {k, v}, acc when is_integer(v) -> acc <>  "    #{k} = #{v},\n"
+    end)
+    |> Kernel.<>("}\n")
   end
 
   @spec create_entry(list(any)) :: list(any) | nil
