@@ -16,7 +16,6 @@ defmodule Doccer do
             Enum.member?(fields(), flag)
           end)
 
-        # Ensure there is at least one field given
         json_entry = Entry.create_entry(fields)
         Library.append(json_entry, library_path)
 
