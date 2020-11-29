@@ -8,7 +8,7 @@ defmodule Doccer do
       Library.init(library_path)
     end
 
-    case command = Enum.at(args, 0) do
+    case Enum.at(args, 0) do
       "add" ->
         fields =
           Field.get_from_args(args)
