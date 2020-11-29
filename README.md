@@ -21,6 +21,8 @@ Pre-1.0 to-dos include:
 - [ ] Field text search support
 - [ ] Field regex search support
 - [x] Support Bibtex types other than `article`
+- [ ] Multiple author support
+- [ ] Author last and first name support
 - [ ] Bibtex import support
 - [ ] Other import formats
 - [ ] Other export formats
