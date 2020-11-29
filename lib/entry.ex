@@ -26,6 +26,10 @@ defmodule Entry do
 
   def create_entry(fields) when is_list(fields) do
     entry_type = Keyword.get(fields, :type)
+    |> (fn
+      type when is_binary(type) -> String.to_atom(type)
+      type when is_atom(type) -> type
+    end).()
 
     unless Enum.member?(bibtex_types(), entry_type) or entry_type == nil do
       raise "Invalid bibtex entry type: #{fields[:type]}.\n\nType should be one of: #{
@@ -41,19 +45,19 @@ defmodule Entry do
 
   defp bibtex_types,
     do: [
-      "article",
-      "book",
-      "booklet",
-      "conference",
-      "inbook",
-      "incollection",
-      "inproceedings",
-      "manual",
-      "masterthesis",
-      "misc",
-      "phdthesis",
-      "proceedings",
-      "techreport",
-      "unpublished"
+      :article,
+      :book,
+      :booklet,
+      :conference,
+      :inbook,
+      :incollection,
+      :inproceedings,
+      :manual,
+      :masterthesis,
+      :misc,
+      :phdthesis,
+      :proceedings,
+      :techreport,
+      :unpublished
     ]
 end
