@@ -22,7 +22,7 @@ defmodule Doccer do
           raise "Please provide at least one field for this entry."
         end
 
-        json_entry = Entry.format_json(fields)
+        json_entry = Entry.create_entry(fields)
         Library.append(json_entry, library_path)
 
       "export" ->

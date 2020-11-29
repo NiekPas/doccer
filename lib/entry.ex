@@ -16,9 +16,10 @@ defmodule Entry do
     """
   end
 
-  def format_json([]), do: nil
+  @spec create_entry(list(any)) :: list(any) | nil
+  def create_entry([]), do: nil
 
-  def format_json(fields) when is_list(fields) do
+  def create_entry(fields) when is_list(fields) do
     entry_type = Keyword.get(fields, :type)
 
     unless Enum.member?(bibtex_types(), entry_type) or entry_type == nil do
