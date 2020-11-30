@@ -1,5 +1,4 @@
 defmodule Entry do
-  # TODO make this a struct
   def format_as_bibtex(entry) when is_binary(entry),
     do: format_as_bibtex(Jason.decode!(entry))
 
