@@ -43,6 +43,69 @@ defmodule Doccer do
 
         Library.write_content_to_file(Jason.encode!(updated_library), library_path)
 
+      "show" ->
+        # TODO refactor this into function after completion
+        # (TODO) For each column, we get the longest cell length by running through the entries
+        # and checking their String.length/1, then set each column to its max length
+        # by calculating padding around the headers and entries
+        library = Library.export(library_path)
+
+        # Set the minimum column with to 5 characters for aesthetic purposes.
+        minimum_column_width = 5
+
+        # def calculate_column_widths
+        columns =
+          fields()
+          |> Enum.reduce(%{}, fn field_type, acc ->
+            # For each column, we calculate its width by
+            # retrieving the string length of its longest entry.
+
+            column_width =
+              library
+              |> Enum.reduce(minimum_column_width, fn entry, acc ->
+                case Map.fetch(entry, field_type) do
+                  :error ->
+                    max(acc, minimum_column_width)
+
+                  {:ok, nil} ->
+                    max(acc, minimum_column_width)
+
+                  {:ok, field_value} when is_binary(field_value) ->
+                    max(acc, String.length(field_value))
+
+                  {:ok, year} when is_integer(year) ->
+                    max(acc, year |> Integer.to_string() |> String.length())
+                end
+              end)
+
+            Map.merge(acc, %{field_type => column_width})
+          end)
+
+        IO.puts("*****************************************")
+        IO.inspect(columns)
+        IO.puts("*****************************************")
+
+        """
+        +--------+------+-------+---------+--------+------+
+        | Author | Year | Title | Journal | Folder | Tags |
+        +--------+------+-------+---------+--------+------+
+        |        |      |       |         |        |      |
+        +--------+------+-------+---------+--------+------+
+        |        |      |       |         |        |      |
+        +--------+------+-------+---------+--------+------+
+        |        |      |       |         |        |      |
+        +--------+------+-------+---------+--------+------+
+        """
+        |> IO.puts()
+
+        library
+        |> Enum.each(fn entry ->
+          IO.inspect(entry)
+          # TODO pretty table
+        end)
+
+        resp = IO.gets("Press <Enter> to close")
+
       _ ->
         IO.puts("Invalid command line argument")
     end

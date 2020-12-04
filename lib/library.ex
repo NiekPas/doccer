@@ -38,4 +38,8 @@ defmodule Library do
     send(port, {self(), {:command, value}})
     :ok
   end
+
+  def export(path, opts \\ [keys: :atoms]) when is_binary(path) do
+    Jason.decode!(File.read!(path), opts)
+  end
 end
